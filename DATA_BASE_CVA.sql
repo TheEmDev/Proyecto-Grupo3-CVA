@@ -186,27 +186,30 @@ DELIMITER $$
 CREATE PROCEDURE GetSolicitanteElegibilidad()
 BEGIN
     SELECT 
-        s.nombres AS NombreSolicitante, 
-        s.apellidos AS ApellidoSolicitante, 
+        u.nombres AS NombreSolicitante, 
+        u.apellidos AS ApellidoSolicitante, 
         fe.motivo_viaje, 
         fe.codigo_pasaporte 
     FROM tbl_solicitante s
+    INNER JOIN tbl_usuario u ON s.id_usuario = u.id_usuario
     INNER JOIN tbl_form_eligibilidadCVA fe ON s.id_solicitante = fe.id_solicitante;
 END $$
 DELIMITER ;
+
 
 -- Procedimiento para consultar datos de tbl_administrador y tbl_usuario usando INNER JOIN
 DELIMITER $$
 CREATE PROCEDURE GetAdministradorUsuario()
 BEGIN
     SELECT 
-        a.nombres AS NombreAdmin, 
-        a.apellidos AS ApellidoAdmin, 
+        u.nombres AS NombreAdmin, 
+        u.apellidos AS ApellidoAdmin, 
         u.correo AS CorreoUsuario 
     FROM tbl_administrador a
     INNER JOIN tbl_usuario u ON a.id_usuario = u.id_usuario;
 END $$
 DELIMITER ;
+
 
 -- Procedimiento para actualizar datos en tbl_usuario
 DELIMITER $$
@@ -227,15 +230,21 @@ DELIMITER $$
 CREATE PROCEDURE InsertSolicitante(
     IN nombre VARCHAR(50), 
     IN apellido VARCHAR(50), 
-    IN correo VARCHAR(20), 
-    IN contrasena VARCHAR(20), 
-    IN usuarioID INT
+    IN correo VARCHAR(50), 
+    IN contrasena VARCHAR(255), 
+    IN fecha_nacimiento DATE
 )
 BEGIN
-    INSERT INTO tbl_solicitante (nombres, apellidos, correo, contrasena, id_usuario)
-    VALUES (nombre, apellido, correo, contrasena, usuarioID);
+    -- Primero, inserta en tbl_usuario
+    INSERT INTO tbl_usuario (nombres, apellidos, correo, contrasena, fecha_nacimiento)
+    VALUES (nombre, apellido, correo, contrasena, fecha_nacimiento);
+    
+    -- Luego, inserta en tbl_solicitante usando el ID del nuevo usuario
+    INSERT INTO tbl_solicitante (id_usuario)
+    VALUES (LAST_INSERT_ID());
 END $$
 DELIMITER ;
+
 
 -- Procedimiento para eliminar datos de tbl_solicitante
 DELIMITER $$
@@ -271,6 +280,7 @@ SELECT
 FROM tbl_solicitante s
 INNER JOIN tbl_usuario u ON s.id_usuario = u.id_usuario
 INNER JOIN tbl_form_eligibilidadCVA fe ON s.id_solicitante = fe.id_solicitante;
+
 
 
 
