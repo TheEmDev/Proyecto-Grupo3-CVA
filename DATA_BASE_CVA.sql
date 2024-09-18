@@ -316,14 +316,18 @@ BEFORE DELETE ON tbl_solicitante
 FOR EACH ROW
 BEGIN
     DECLARE nombre_completo VARCHAR(100);
-    SELECT CONCAT(nombres, ' ', apellidos) INTO nombre_completo
-    FROM tbl_usuario
-    WHERE id_usuario = OLD.id_usuario;
-    
+
+    -- Obtener el nombre completo del usuario que está siendo eliminado
+    SELECT CONCAT(u.nombres, ' ', u.apellidos) INTO nombre_completo
+    FROM tbl_usuario u
+    WHERE u.id_usuario = OLD.id_usuario;
+
+    -- Insertar el mensaje en el registro de logs
     INSERT INTO tbl_log_solicitante (log_msg)
     VALUES (CONCAT('Solicitante eliminado: ', nombre_completo));
 END $$
 DELIMITER ;
+
 
 -- Índices
 -- Índice en el campo correo de tbl_usuario
