@@ -245,15 +245,16 @@ BEGIN
 END $$
 DELIMITER ;
 
-
--- Procedimiento para eliminar datos de tbl_solicitante
+--Procedimiento de Eliminación para tbl_documentos_adjuntos
 DELIMITER $$
-CREATE PROCEDURE DeleteSolicitante(IN solicitanteID INT)
+CREATE PROCEDURE DeleteDocumentoAdjunto(IN documentoID INT)
 BEGIN
-    DELETE FROM tbl_solicitante
-    WHERE id_solicitante = solicitanteID;
+    -- Eliminar el documento adjunto usando el ID proporcionado
+    DELETE FROM tbl_documentos_adjuntos
+    WHERE id_documento = documentoID;
 END $$
 DELIMITER ;
+
 
 -- Vistas
 -- Vista para consultar la información de tbl_administrador y sus usuarios relacionados
