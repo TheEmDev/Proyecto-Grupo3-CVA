@@ -1,6 +1,7 @@
 -- Creación de la base de datos si no existe y uso de la misma
 CREATE DATABASE IF NOT EXISTS CVA;
 USE CVA;
+
 -- Tabla para usuarios
 CREATE TABLE tbl_usuario (
     id_usuario INT(11) PRIMARY KEY AUTO_INCREMENT,
@@ -108,89 +109,77 @@ CREATE TABLE tbl_pago (
     FOREIGN KEY (id_solicitante) REFERENCES tbl_solicitante(id_solicitante)
 );
 
---Inserciones en las tablas
+-- Insertar datos en tbl_usuario
+INSERT INTO tbl_usuario (fecha_nacimiento, correo, contrasena, nombres, apellidos) VALUES
+('1990-05-15', 'usuario1@email.com', 'pass123', 'Juan', 'Pérez'),
+('1985-10-22', 'usuario2@email.com', 'pass456', 'María', 'González'),
+('1992-03-30', 'usuario3@email.com', 'pass789', 'Carlos', 'Rodríguez'),
+('1988-07-18', 'usuario4@email.com', 'passabc', 'Ana', 'Martínez'),
+('1995-12-05', 'usuario5@email.com', 'passdef', 'Luis', 'Sánchez'),
+('1993-09-10', 'usuario6@email.com', 'passghi', 'Laura', 'Díaz'),
+('1987-04-25', 'usuario7@email.com', 'passjkl', 'Pedro', 'López');
 
--- Inserción de datos en tbl_usuario
-INSERT INTO tbl_usuario (fecha_nacimiento, correo, contrasena, nombres, apellidos)
-VALUES
-('1990-01-15', 'juan.perez@example.com', 'password1', 'Juan', 'Pérez'),
-('1985-02-20', 'maria.gomez@example.com', 'password2', 'María', 'Gómez'),
-('1992-03-30', 'pedro.martinez@example.com', 'password3', 'Pedro', 'Martínez'),
-('1988-04-10', 'luisa.fernandez@example.com', 'password4', 'Luisa', 'Fernández'),
-('1995-05-25', 'ana.rodriguez@example.com', 'password5', 'Ana', 'Rodríguez'),
-('1982-06-05', 'carlos.lopez@example.com', 'password6', 'Carlos', 'López'),
-('1993-07-18', 'sofia.garcia@example.com', 'password7', 'Sofía', 'García');
-
--- Inserción de datos en tbl_administrador
-INSERT INTO tbl_administrador (id_usuario)
-VALUES 
+-- Insertar datos en tbl_administrador
+INSERT INTO tbl_administrador (id_usuario) VALUES
 (1), (2), (3), (4), (5), (6), (7);
 
--- Inserción de datos en tbl_solicitante
-INSERT INTO tbl_solicitante (id_usuario)
-VALUES 
-(3), (4), (5), (6), (7), (1), (2);
-
--- Inserción de datos en tbl_asesor
-INSERT INTO tbl_asesor (id_usuario)
-VALUES 
+-- Insertar datos en tbl_solicitante
+INSERT INTO tbl_solicitante (id_usuario) VALUES
 (1), (2), (3), (4), (5), (6), (7);
 
--- Inserción de datos en tbl_form_eligibilidadCVA
-INSERT INTO tbl_form_eligibilidadCVA (motivo_viaje, codigo_pasaporte, pais_residencia, familiares_canada, relacion_familiares_can, estado_civil, provincia_destino, trabajo_actual, negocios_actuales, co_deudor, viajes_recientes, acompanante_canada, antecedente_judiciales, examenes_medicos, aplicacion_familiares, acceso_aplicacion, biometricos_canada, pago_tasas, metodo_pago, id_solicitante)
-VALUES
-('Turismo', 'AB12345', 'México', 'No', '', 'Soltero', 'Ontario', 'Ingeniero', '', 'No', 'Sí', 'No', 'No', 'No', 'No', 'No', 'No', 'Crédito', 3),
-('Trabajo', 'BC23456', 'España', 'Sí', 'Hermano', 'Casado', 'Quebec', 'Profesor', '', 'No', 'No', 'No', 'No', 'No', 'No', 'No', 'Sí', 'Paypal', 4),
-('Estudios', 'CD34567', 'Argentina', 'No', '', 'Soltero', 'Manitoba', 'Estudiante', '', 'No', 'Sí', 'No', 'No', 'No', 'No', 'No', 'No', 'Efectivo', 5),
-('Residencia', 'DE45678', 'Perú', 'No', '', 'Divorciado', 'British Columbia', 'Empresario', '', 'No', 'No', 'No', 'No', 'No', 'No', 'No', 'No', 'Transferencia', 6),
-('Inmigración', 'EF56789', 'Colombia', 'Sí', 'Padre', 'Casado', 'Alberta', 'Médico', '', 'No', 'No', 'No', 'No', 'No', 'No', 'No', 'Sí', 'Débito', 7),
-('Visita familiar', 'FG67890', 'Chile', 'No', '', 'Viudo', 'Nova Scotia', 'Artista', '', 'No', 'No', 'No', 'No', 'No', 'No', 'No', 'No', 'Paypal', 1),
-('Conferencia', 'GH78901', 'Brasil', 'Sí', 'Tía', 'Soltero', 'Saskatchewan', 'Conferencista', '', 'Sí', 'Sí', 'No', 'No', 'No', 'No', 'No', 'No', 'Tarjeta', 2);
+-- Insertar datos en tbl_asesor
+INSERT INTO tbl_asesor (id_usuario) VALUES
+(1), (2), (3), (4), (5), (6), (7);
 
--- Inserción de datos en tbl_form_familiarCVA
-INSERT INTO tbl_form_familiarCVA (aplicante, conyugue, madre, padre, hijos, hermanos, id_formElegibilidad)
-VALUES
-('Juan Pérez', 'María González', 'Rosa Pérez', 'Carlos Pérez', '["Hijo1", "Hijo2"]', '["Hermano1"]', 1),
-('Pedro Martínez', 'Ana López', 'Carmen Martínez', 'Miguel Martínez', '["Hijo1"]', '["Hermano1", "Hermano2"]', 2),
-('Luisa Fernández', '', 'Juana Fernández', 'Luis Fernández', '[]', '["Hermano1"]', 3),
-('Ana Rodríguez', '', 'Marta Rodríguez', 'Pedro Rodríguez', '[]', '[]', 4),
-('Carlos López', 'Sofía Ramírez', 'Laura López', 'José López', '["Hijo1"]', '["Hermano1", "Hermano2"]', 5),
-('Sofía García', '', 'Isabel García', 'Fernando García', '[]', '[]', 6),
-('María Gómez', 'Juan Torres', 'Teresa Gómez', 'Luis Gómez', '["Hijo1", "Hijo2", "Hijo3"]', '["Hermano1"]', 7);
+-- Insertar datos en tbl_form_eligibilidadCVA
+INSERT INTO tbl_form_eligibilidadCVA (motivo_viaje, codigo_pasaporte, pais_residencia, familiares_canada, relacion_familiares_can, estado_civil, provincia_destino, trabajo_actual, negocios_actuales, co_deudor, viajes_recientes, acompanante_canada, antecedente_judiciales, examenes_medicos, aplicacion_familiares, acceso_aplicacion, biometricos_canada, pago_tasas, metodo_pago, id_solicitante) VALUES
+('Turismo', 'AB123456', 'Colombia', 'No', 'N/A', 'Soltero', 'Ontario', 'Ingeniero', 'Ninguno', 'No', 'No', 'No', 'No', 'No', 'No', 'Sí', 'No', 'Sí', 'Tarjeta de crédito', 1),
+('Trabajo', 'CD789012', 'México', 'Sí', 'Hermano', 'Casado', 'Quebec', 'Profesor', 'Consultoría', 'Sí', 'Sí', 'Sí', 'No', 'Sí', 'No', 'Sí', 'Sí', 'Sí', 'Transferencia', 2),
+('Estudios', 'EF345678', 'Argentina', 'No', 'N/A', 'Soltero', 'British Columbia', 'Estudiante', 'Ninguno', 'No', 'No', 'No', 'No', 'Sí', 'No', 'Sí', 'No', 'Sí', 'Efectivo', 3),
+('Negocios', 'GH901234', 'Perú', 'Sí', 'Primo', 'Divorciado', 'Alberta', 'Empresario', 'Startup', 'Sí', 'Sí', 'No', 'No', 'Sí', 'Sí', 'Sí', 'Sí', 'Sí', 'Tarjeta de débito', 4),
+('Turismo', 'IJ567890', 'Chile', 'No', 'N/A', 'Casado', 'Nova Scotia', 'Médico', 'Ninguno', 'No', 'Sí', 'Sí', 'No', 'Sí', 'No', 'Sí', 'No', 'Sí', 'PayPal', 5),
+('Trabajo', 'KL123456', 'Ecuador', 'No', 'N/A', 'Soltero', 'Manitoba', 'Ingeniero', 'Freelance', 'No', 'No', 'No', 'No', 'Sí', 'No', 'Sí', 'Sí', 'Sí', 'Transferencia', 6),
+('Estudios', 'MN789012', 'Uruguay', 'Sí', 'Tío', 'Soltero', 'Saskatchewan', 'Estudiante', 'Ninguno', 'Sí', 'No', 'No', 'No', 'Sí', 'Sí', 'Sí', 'No', 'Sí', 'Tarjeta de crédito', 7);
 
--- Inserción de datos en tbl_documentos_adjuntos
-INSERT INTO tbl_documentos_adjuntos (historial_viajes, pasaporte, comprobante_recursos_financieros, comprobante_mediosApoyo, foto_digital, proposito_viaje, prueba_estadoCivil, informacion_familiar, aplicacion_IMM5257, informacion_cliente, id_formElegibilidad)
-VALUES
-('Historial viajes 1', 'Pasaporte 1', 'Comprobante recursos 1', 'Comprobante medios 1', 'Foto 1', 'Propósito viaje 1', 'Prueba estado civil 1', 'Información familiar 1', 'IMM5257_1', 'Info cliente 1', 1),
-('Historial viajes 2', 'Pasaporte 2', 'Comprobante recursos 2', 'Comprobante medios 2', 'Foto 2', 'Propósito viaje 2', 'Prueba estado civil 2', 'Información familiar 2', 'IMM5257_2', 'Info cliente 2', 2),
-('Historial viajes 3', 'Pasaporte 3', 'Comprobante recursos 3', 'Comprobante medios 3', 'Foto 3', 'Propósito viaje 3', 'Prueba estado civil 3', 'Información familiar 3', 'IMM5257_3', 'Info cliente 3', 3),
-('Historial viajes 4', 'Pasaporte 4', 'Comprobante recursos 4', 'Comprobante medios 4', 'Foto 4', 'Propósito viaje 4', 'Prueba estado civil 4', 'Información familiar 4', 'IMM5257_4', 'Info cliente 4', 4),
-('Historial viajes 5', 'Pasaporte 5', 'Comprobante recursos 5', 'Comprobante medios 5', 'Foto 5', 'Propósito viaje 5', 'Prueba estado civil 5', 'Información familiar 5', 'IMM5257_5', 'Info cliente 5', 5),
-('Historial viajes 6', 'Pasaporte 6', 'Comprobante recursos 6', 'Comprobante medios 6', 'Foto 6', 'Propósito viaje 6', 'Prueba estado civil 6', 'Información familiar 6', 'IMM5257_6', 'Info cliente 6', 6),
-('Historial viajes 7', 'Pasaporte 7', 'Comprobante recursos 7', 'Comprobante medios 7', 'Foto 7', 'Propósito viaje 7', 'Prueba estado civil 7', 'Información familiar 7', 'IMM5257_7', 'Info cliente 7', 7);
+-- Insertar datos en tbl_form_familiarCVA
+INSERT INTO tbl_form_familiarCVA (aplicante, conyugue, madre, padre, hijos, hermanos, id_formElegibilidad) VALUES
+('Juan Pérez', 'N/A', 'María Pérez', 'José Pérez', 'Ninguno', 'Ana Pérez, Carlos Pérez', 1),
+('María González', 'Pedro Rodríguez', 'Laura González', 'Roberto González', 'Sofia Rodríguez', 'Luis González', 2),
+('Carlos Rodríguez', 'N/A', 'Elena Rodríguez', 'Manuel Rodríguez', 'Ninguno', 'Diana Rodríguez', 3),
+('Ana Martínez', 'José López', 'Carmen Martínez', 'Antonio Martínez', 'Juan López, María López', 'Pedro Martínez', 4),
+('Luis Sánchez', 'Laura Gómez', 'Isabel Sánchez', 'Francisco Sánchez', 'Ninguno', 'Carlos Sánchez, Elena Sánchez', 5),
+('Laura Díaz', 'N/A', 'Marta Díaz', 'Jorge Díaz', 'Ninguno', 'Roberto Díaz', 6),
+('Pedro López', 'Ana Torres', 'Sofía López', 'Miguel López', 'Carlos López', 'María López, Juan López', 7);
 
--- Inserción de datos en tbl_asesoria
-INSERT INTO tbl_asesoria (fecha_asesoria, asesor_asignado, id_solicitante, id_asesor)
-VALUES
-('2023-01-15 10:00:00', 'Juan Pérez', 3, 1),
-('2023-02-20 11:30:00', 'María Gómez', 4, 2),
-('2023-03-30 09:45:00', 'Pedro Martínez', 5, 3),
-('2023-04-10 14:00:00', 'Luisa Fernández', 6, 4),
-('2023-05-25 16:15:00', 'Ana Rodríguez', 7, 5),
-('2023-06-05 13:00:00', 'Carlos López', 1, 6),
-('2023-07-18 08:30:00', 'Sofía García', 2, 7);
+-- Insertar datos en tbl_documentos_adjuntos
+INSERT INTO tbl_documentos_adjuntos (historial_viajes, pasaporte, comprobante_recursos_financieros, comprobante_mediosApoyo, foto_digital, proposito_viaje, prueba_estadoCivil, informacion_familiar, aplicacion_IMM5257, informacion_cliente, id_formElegibilidad) VALUES
+('viajes_juan.pdf', 'pasaporte_juan.pdf', 'recursos_juan.pdf', 'medios_juan.pdf', 'foto_juan.jpg', 'proposito_juan.pdf', 'estado_civil_juan.pdf', 'familia_juan.pdf', 'IMM5257_juan.pdf', 'info_juan.pdf', 1),
+('viajes_maria.pdf', 'pasaporte_maria.pdf', 'recursos_maria.pdf', 'medios_maria.pdf', 'foto_maria.jpg', 'proposito_maria.pdf', 'estado_civil_maria.pdf', 'familia_maria.pdf', 'IMM5257_maria.pdf', 'info_maria.pdf', 2),
+('viajes_carlos.pdf', 'pasaporte_carlos.pdf', 'recursos_carlos.pdf', 'medios_carlos.pdf', 'foto_carlos.jpg', 'proposito_carlos.pdf', 'estado_civil_carlos.pdf', 'familia_carlos.pdf', 'IMM5257_carlos.pdf', 'info_carlos.pdf', 3),
+('viajes_ana.pdf', 'pasaporte_ana.pdf', 'recursos_ana.pdf', 'medios_ana.pdf', 'foto_ana.jpg', 'proposito_ana.pdf', 'estado_civil_ana.pdf', 'familia_ana.pdf', 'IMM5257_ana.pdf', 'info_ana.pdf', 4),
+('viajes_luis.pdf', 'pasaporte_luis.pdf', 'recursos_luis.pdf', 'medios_luis.pdf', 'foto_luis.jpg', 'proposito_luis.pdf', 'estado_civil_luis.pdf', 'familia_luis.pdf', 'IMM5257_luis.pdf', 'info_luis.pdf', 5),
+('viajes_laura.pdf', 'pasaporte_laura.pdf', 'recursos_laura.pdf', 'medios_laura.pdf', 'foto_laura.jpg', 'proposito_laura.pdf', 'estado_civil_laura.pdf', 'familia_laura.pdf', 'IMM5257_laura.pdf', 'info_laura.pdf', 6),
+('viajes_pedro.pdf', 'pasaporte_pedro.pdf', 'recursos_pedro.pdf', 'medios_pedro.pdf', 'foto_pedro.jpg', 'proposito_pedro.pdf', 'estado_civil_pedro.pdf', 'familia_pedro.pdf', 'IMM5257_pedro.pdf', 'info_pedro.pdf', 7);
 
--- Inserción de datos en tbl_pago
-INSERT INTO tbl_pago (metodo_pago, total_pago, id_solicitante)
-VALUES
-('Crédito', 500.00, 3),
-('Paypal', 700.00, 4),
-('Efectivo', 300.00, 5),
-('Transferencia', 450.00, 6),
-('Débito', 650.00, 7),
-('Paypal', 550.00, 1),
-('Tarjeta', 600.00, 2);
+-- Insertar datos en tbl_asesoria
+INSERT INTO tbl_asesoria (fecha_asesoria, asesor_asignado, id_solicitante, id_asesor) VALUES
+('2024-09-20 10:00:00', 'Juan Pérez', 1, 1),
+('2024-09-21 14:30:00', 'María González', 2, 2),
+('2024-09-22 11:15:00', 'Carlos Rodríguez', 3, 3),
+('2024-09-23 09:45:00', 'Ana Martínez', 4, 4),
+('2024-09-24 16:00:00', 'Luis Sánchez', 5, 5),
+('2024-09-25 13:30:00', 'Laura Díaz', 6, 6),
+('2024-09-26 10:45:00', 'Pedro López', 7, 7);
 
+-- Insertar datos en tbl_pago
+INSERT INTO tbl_pago (metodo_pago, total_pago, id_solicitante) VALUES
+('Tarjeta de crédito', 500.00, 1),
+('Transferencia', 750.00, 2),
+('Efectivo', 600.00, 3),
+('Tarjeta de débito', 550.00, 4),
+('PayPal', 680.00, 5),
+('Transferencia', 720.00, 6),
+('Tarjeta de crédito', 590.00, 7);
 
 -- Procedimiento para consultar datos de tbl_solicitante y tbl_form_eligibilidadCVA usando INNER JOIN
 DELIMITER $$
