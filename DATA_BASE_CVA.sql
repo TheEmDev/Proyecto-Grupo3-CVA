@@ -309,19 +309,20 @@ BEGIN
 END $$
 DELIMITER ;
 
--- Trigger para registrar una eliminación en tbl_solicitante
+-- Trigger para registrar una eliminación en tbl_form_familiarCVA
 DELIMITER $$
 
-CREATE TRIGGER after_solicitante_delete
-BEFORE DELETE ON tbl_solicitante
+CREATE TRIGGER after_form_familiar_delete
+BEFORE DELETE ON tbl_form_familiarCVA
 FOR EACH ROW
 BEGIN
-    -- Insertar un mensaje en la tabla de logs con el ID del solicitante eliminado
+    -- Insertar un mensaje en la tabla de logs con el ID del formulario familiar eliminado
     INSERT INTO tbl_log_solicitante (log_msg)
-    VALUES (CONCAT('Solicitante eliminado: ID ', OLD.id_solicitante));
+    VALUES (CONCAT('Formulario familiar eliminado: ID ', OLD.id_formFamiliar));
 END $$
 
 DELIMITER ;
+
 
 
 
