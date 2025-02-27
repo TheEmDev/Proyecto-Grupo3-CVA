@@ -231,6 +231,37 @@ END $$
 DELIMITER ;
 
 
+DELIMITER $$
+
+-- Procedimiento para insertar un usuario sin permitir correos duplicados
+CREATE PROCEDURE InsertUsuarioSinRepetirCorreo(
+    IN p_nombres VARCHAR(100),     -- Nombre del usuario a insertar
+    IN p_apellidos VARCHAR(100),   -- Apellidos del usuario a insertar
+    IN p_correo VARCHAR(255),      -- Correo electrónico del usuario (clave única)
+    IN p_contrasena VARCHAR(255)   -- Contraseña del usuario
+)
+BEGIN
+    DECLARE correo_existente INT;  -- Variable para almacenar si el correo ya existe
+
+    -- Verificar si el correo ya está registrado en la base de datos
+    SELECT COUNT(*) INTO correo_existente 
+    FROM tbl_usuario 
+    WHERE correo = p_correo;
+
+    -- Si el correo NO existe, se inserta el nuevo usuario
+    IF correo_existente = 0 THEN
+        INSERT INTO tbl_usuario (nombres, apellidos, correo, contrasena)
+        VALUES (p_nombres, p_apellidos, p_correo, p_contrasena);
+    ELSE
+        -- Si el correo YA existe, se lanza un error para evitar la duplicación
+        SIGNAL SQLSTATE '45000'
+        SET MESSAGE_TEXT = 'Error: El correo ya está registrado.';
+    END IF;
+END $$
+
+DELIMITER ;
+
+
 -- Procedimiento para actualizar datos en tbl_usuario
 DELIMITER $$
 CREATE PROCEDURE UpdateUsuario(
