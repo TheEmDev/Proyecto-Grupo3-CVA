@@ -210,6 +210,26 @@ BEGIN
 END $$
 DELIMITER ;
 
+-- Procedimiento almacenado para obtener información de solicitantes y sus pagos
+
+DELIMITER $$
+
+CREATE PROCEDURE GetSolicitantesPagos()
+BEGIN
+    -- Selecciona los datos de los solicitantes y sus pagos asociados
+    SELECT 
+        u.nombres AS NombreSolicitante, 
+        u.apellidos AS ApellidoSolicitante, 
+        u.correo AS CorreoSolicitante, 
+        COALESCE(p.total_pago, 0) AS MontoPagado,  -- Evita valores NULL si no hay pagos
+        COALESCE(p.metodo_pago, 'No Registrado') AS MetodoPago
+    FROM tbl_solicitante s
+    INNER JOIN tbl_usuario u ON s.id_usuario = u.id_usuario
+    LEFT JOIN tbl_pago p ON s.id_solicitante = p.id_solicitante;  -- LEFT JOIN para incluir solicitantes sin pago
+END $$
+
+DELIMITER ;
+
 
 -- Procedimiento para actualizar datos en tbl_usuario
 DELIMITER $$
