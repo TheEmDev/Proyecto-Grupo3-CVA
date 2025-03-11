@@ -296,7 +296,7 @@ BEGIN
 END $$
 DELIMITER ;
 
---Procedimiento de Eliminación para tbl_documentos_adjuntos
+-- Procedimiento de Eliminación para tbl_documentos_adjuntos
 DELIMITER $$
 CREATE PROCEDURE DeleteDocumentoAdjunto(IN documentoID INT)
 BEGIN
